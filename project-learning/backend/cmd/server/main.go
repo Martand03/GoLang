@@ -28,6 +28,7 @@ func main() {
 	}))
 
 	r.POST("/api/auth/signup", userHandler.SignUp)
+	r.POST("/api/auth/login", userHandler.Login)
 
 	r.Run(":8089")
 }
