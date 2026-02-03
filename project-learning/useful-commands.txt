@@ -1,0 +1,20 @@
+AzureAD+MartandMahajan@DESKTOP-HILR3OP MINGW64 ~
+$ docker run --name ecommerce-db \
+> -e POSTGRES_USER=admin \
+> -e POSTGRES_PASSWORD=admin \
+> -e POSTGRES_DB=ecommerce \
+> -e TZ=Asia/Kolkata \
+> -e PGTZ=Asia/Kolkata \
+> -p 5434:5432 \
+> -d postgres
+a0cbc95f6a83736616c896dbfc9be2cd3e922439b2feabe96effef443ec369ba
+
+-------------------------------
+
+\l              -- list databases
+\c ecommerce    -- connect to ecommerce db
+\dt             -- list tables
+\d users        -- describe table "users"
+\du             -- list users
+SHOW timezone;
+
