@@ -16,7 +16,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 			return
 		}
 
-		tokenString := strings.TrimPrefix(header, "Bearer")
+		tokenString := strings.TrimPrefix(header, "Bearer ")
 
 		token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
