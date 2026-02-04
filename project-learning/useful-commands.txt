@@ -11,6 +11,9 @@ a0cbc95f6a83736616c896dbfc9be2cd3e922439b2feabe96effef443ec369ba
 
 -------------------------------
 
+psql -U admin -d ecommerce
+
+
 \l              -- list databases
 \c ecommerce    -- connect to ecommerce db
 \dt             -- list tables

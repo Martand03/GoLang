@@ -2,6 +2,8 @@
 
 import {useEffect, useState} from "react";
 import SignUp from "@/app/signup/page";
+import {Route, BrowserRouter, Routes} from "react-router";
+import Login from "@/app/login/page";
 
 export default function Home(){
     const [status, setStatus] = useState('');
@@ -13,10 +15,11 @@ export default function Home(){
     // }, []);
 
     return(
-        <main className="p-10">
-            {/*<h1 className="text-2xl font-bold">Go + Next.js Ecommerce</h1>*/}
-            {/*<p className="mt-4">Backend Status: {status}</p>*/}
-            <SignUp/>
-        </main>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/signup" element={<SignUp/>} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
+        </BrowserRouter>
     );
 }

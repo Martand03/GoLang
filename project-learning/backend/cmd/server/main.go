@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/MartandMahajan/project-learning/backend/auth"
 	"github.com/MartandMahajan/project-learning/backend/internal/config"
 	"github.com/MartandMahajan/project-learning/backend/internal/user"
 	"github.com/gin-contrib/cors"
@@ -29,6 +30,17 @@ func main() {
 
 	r.POST("/api/auth/signup", userHandler.SignUp)
 	r.POST("/api/auth/login", userHandler.Login)
+
+	authGroup := r.Group("/api")
+	authGroup.Use(auth.AuthMiddleWare())
+	{
+		authGroup.GET("/profile", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"user_id": c.GetString("user_id"),
+				"role":    c.GetString("role"),
+			})
+		})
+	}
 
 	r.Run(":8089")
 }
