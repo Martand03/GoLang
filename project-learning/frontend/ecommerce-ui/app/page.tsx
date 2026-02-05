@@ -1,27 +1,19 @@
-'use client';
+import Link from 'next/link';
 
-import {useEffect, useState} from "react";
-import SignUp from "@/app/signup/page";
-import {Route, BrowserRouter, Routes} from "react-router";
-import Login from "@/app/login/page";
-import Products from "@/app/products/page";
+export default function Landing() {
+    return (
+        <main className="h-screen flex flex-col items-center justify-center">
+            <h1 className="text-3xl font-bold">GoCommerce</h1>
+            <p className="mt-2 text-gray-600">Built with Go + Next.js</p>
 
-export default function Home(){
-    const [status, setStatus] = useState('');
-
-    // useEffect(() => {
-    //   fetch('http://localhost:8080/health')
-    //       .then(res => res.json())
-    //       .then(data => setStatus(data.status));
-    // }, []);
-
-    return(
-        <BrowserRouter>
-            <Routes>
-                <Route path="/signup" element={<SignUp/>} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/products" element={<Products/>} />
-            </Routes>
-        </BrowserRouter>
+            <div className="mt-6 flex gap-4">
+                <Link href="/login" className="bg-black text-white px-4 py-2">
+                    Login
+                </Link>
+                <Link href="/signup" className="border px-4 py-2">
+                    Signup
+                </Link>
+            </div>
+        </main>
     );
 }

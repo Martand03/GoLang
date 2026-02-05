@@ -2,21 +2,33 @@
 
 
 import {useState} from "react";
+import {useRouter} from "next/navigation";
+import {saveAuthToken} from "@/lib/auth";
+import toast from "react-hot-toast";
 
 export default function Login(){
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const router = useRouter();
 
     const login = async () => {
-        const res = await fetch("http://localhost:8089/api/auth/login",{
-            method: 'POST',
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify({email, password}),
-        });
+        try{
+            const res = await fetch("http://localhost:8089/api/auth/login",{
+                method: 'POST',
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify({email, password}),
+            });
 
-        const data = await res.json();
-        localStorage.setItem("token", data.token);
-        alert('Login successful');
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error);
+
+            saveAuthToken(data.token);
+            toast.success('Login successful');
+            router.push('/products');
+        
+        }catch (err: any) {
+            toast.error(err.message);
+        }
     };
 
     return(
