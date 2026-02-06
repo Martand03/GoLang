@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/MartandMahajan/project-learning/backend/auth"
+	"github.com/MartandMahajan/project-learning/backend/internal/cart"
 	"github.com/MartandMahajan/project-learning/backend/internal/config"
 	"github.com/MartandMahajan/project-learning/backend/internal/product"
 	"github.com/MartandMahajan/project-learning/backend/internal/user"
@@ -22,7 +23,7 @@ func main() {
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
@@ -33,11 +34,16 @@ func main() {
 	r.POST("/api/auth/login", userHandler.Login)
 
 	// products wiring
-
 	productRepo := product.NewRepository(db)
 	productService := product.NewService(productRepo)
 	productHandler := product.NewHandler(productService)
 	db.AutoMigrate(&product.Product{})
+
+	// carts wiring
+	cartRepo := cart.NewRepository(db)
+	cartService := cart.NewService(cartRepo)
+	cartHandler := cart.NewHandler(cartService)
+	db.AutoMigrate(&cart.CartItem{})
 
 	authGroup := r.Group("/api")
 	authGroup.Use(auth.AuthMiddleWare())
@@ -50,6 +56,8 @@ func main() {
 		})
 
 		authGroup.GET("/products", productHandler.List)
+		authGroup.POST("/cart", cartHandler.Add)
+		authGroup.GET("/cart", cartHandler.List)
 
 		admin := authGroup.Group("/admin")
 		admin.Use(auth.AdminOnly())
