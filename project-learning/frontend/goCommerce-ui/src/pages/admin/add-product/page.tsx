@@ -31,14 +31,44 @@ export default function AddProduct() {
     };
 
     return (
-        <div className="p-10 max-w-md mx-auto">
-            <h1 className="text-xl font-bold mb-4">Add Product</h1>
-            <input className="border p-2 w-full mb-3" placeholder="Name" onChange={e => setName(e.target.value)} />
-            <input className="border p-2 w-full mb-3" placeholder="Price" onChange={e => setPrice(e.target.value)} />
-            <input className="border p-2 w-full mb-3" placeholder="Stock" onChange={e => setStock(e.target.value)} />
-            <button className="bg-black text-white w-full py-2" onClick={submit}>
-                Add
-            </button>
-        </div>
-    );
+  <div className="min-h-[80vh] flex flex-col justify-center items-center px-4">
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+      
+      <h1 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-indigo-600 to-cyan-600 bg-clip-text text-transparent">
+        Add Product
+      </h1>
+
+      <div className="flex flex-col gap-4">
+        <input
+          type="text"
+          placeholder="Name"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          onChange={e => setName(e.target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Price"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          onChange={e => setPrice(e.target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Stock"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          onChange={e => setStock(e.target.value)}
+        />
+
+        <button
+          onClick={submit}
+          className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white py-3 font-semibold shadow-md hover:shadow-lg transition"
+        >
+          Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 }

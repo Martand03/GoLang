@@ -1,9 +1,8 @@
 "use client";
 
-
 import {useState} from "react";
 import {saveAuthToken} from "../../utils/auth.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
 export default function Login(){
@@ -31,18 +30,46 @@ export default function Login(){
         }
     };
 
-    return(
-        <div className="p-10 max-w-md mx-auto">
-            <h1 className="text-xl font-bold mb-4">Login</h1>
-            <input
-                className="border p-2 w-full md-3"
-                placeholder="Email"
-                onChange={e => setEmail(e.target.value)} />
-            <input
-                className="border p-2 w-full md-3"
-                placeholder="Password"
-                onChange={e => setPassword(e.target.value)} />
-            <button className="bg-black text-white px-4 py-2 w-full" onClick={login}>Login</button>
-        </div>
-    );
+return (
+  <div className="min-h-[80vh] flex flex-col justify-center items-center px-4">
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+      
+      <h1 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-indigo-600 to-cyan-600 bg-clip-text text-transparent">
+        Login
+      </h1>
+      
+      <div className="flex flex-col gap-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          onChange={e => setEmail(e.target.value)}
+        />
+        
+        <input
+          type="password"
+          placeholder="Password"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          onChange={e => setPassword(e.target.value)}
+        />
+        
+        <button
+          onClick={login}
+          className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold py-3 shadow-md hover:shadow-lg transition"
+        >
+          Login
+        </button>
+      </div>
+
+      <p className="mt-4 text-center text-sm text-gray-500">
+        Don’t have an account?{" "}
+        <Link to="/signup" className="text-indigo-600 hover:underline">
+          Sign up
+        </Link>
+      </p>
+
+    </div>
+  </div>
+);
+
 }

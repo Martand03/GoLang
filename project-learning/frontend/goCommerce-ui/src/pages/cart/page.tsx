@@ -10,14 +10,39 @@ export default function Cart(){
         apiFetch('http://localhost:8089/api/cart').then(setItems);
     },[]);
 
-    return(
-        <div className="p-10">
-            <h1 className="text-xl font-bold mb-4">Cart</h1>
-            {items.map(i => (
-                <div key={i.ID} className="border p-3 mb-2">
-                    Product #{i.ProductId} | Quantity: {i.Quantity}
-                </div>
-            ))}
-        </div>
-    );
+return (
+  <div className="px-4 py-12 max-w-4xl mx-auto">
+    <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Cart</h1>
+
+    {items.length === 0 ? (
+      <p className="text-gray-600 text-center">Your cart is empty.</p>
+    ) : (
+      <div className="grid grid-cols-1 gap-6">
+        {items.map(i => (
+          <div
+            key={i.ID}
+            className="bg-white rounded-2xl shadow-lg p-6 flex justify-between items-center hover:shadow-xl transition"
+          >
+            <div>
+              <p className="text-lg font-semibold text-gray-900">
+                Product #{i.ProductId}
+              </p>
+              <p className="text-gray-500">Quantity: {i.Quantity}</p>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                // onClick={() => removeFromCart(i.ID)}
+                className="rounded-lg bg-red-500 text-white px-4 py-2 font-medium hover:bg-red-600 transition"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+);
+
 }
