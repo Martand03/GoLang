@@ -6,6 +6,7 @@ import (
 	"github.com/MartandMahajan/project-learning/backend/auth"
 	"github.com/MartandMahajan/project-learning/backend/internal/cart"
 	"github.com/MartandMahajan/project-learning/backend/internal/config"
+	"github.com/MartandMahajan/project-learning/backend/internal/order"
 	"github.com/MartandMahajan/project-learning/backend/internal/product"
 	"github.com/MartandMahajan/project-learning/backend/internal/user"
 	"github.com/gin-contrib/cors"
@@ -45,6 +46,11 @@ func main() {
 	cartHandler := cart.NewHandler(cartService)
 	db.AutoMigrate(&cart.CartItem{})
 
+	// orders wiring
+	orderService := order.NewService(db)
+	orderHandler := order.NewHandler(orderService)
+	db.AutoMigrate(&order.Order{}, &order.OrderItem{})
+
 	authGroup := r.Group("/api")
 	authGroup.Use(auth.AuthMiddleWare())
 	{
@@ -58,6 +64,7 @@ func main() {
 		authGroup.GET("/products", productHandler.List)
 		authGroup.POST("/cart", cartHandler.Add)
 		authGroup.GET("/cart", cartHandler.List)
+		authGroup.POST("/orders", orderHandler.PlaceOrder)
 
 		admin := authGroup.Group("/admin")
 		admin.Use(auth.AdminOnly())

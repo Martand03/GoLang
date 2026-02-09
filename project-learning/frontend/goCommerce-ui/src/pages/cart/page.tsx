@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {apiFetch} from "../../utils/api.ts";
+import {toast} from "react-toastify";
 
 export default function Cart(){
     const[items, setItems] = useState<any[]>([]);
@@ -9,6 +10,18 @@ export default function Cart(){
     useEffect(() => {
         apiFetch('http://localhost:8089/api/cart').then(setItems);
     },[]);
+
+    const placeOrder = async () =>{
+        try{
+            await apiFetch("http://localhost:8089/api/orders",{
+                method: 'POST'
+            });
+            toast.success("Order Placed Successfully !!")
+            setItems([]);
+        }catch (err: any){
+            toast.error(err.message);
+        }
+    }
 
 return (
   <div className="px-4 py-12 max-w-4xl mx-auto">
@@ -31,6 +44,9 @@ return (
             </div>
 
             <div className="flex gap-2">
+                <button className="nav-btn-primary" onClick={placeOrder}>
+                    Place Order
+                </button>
               <button
                 // onClick={() => removeFromCart(i.ID)}
                 className="rounded-lg bg-red-500 text-white px-4 py-2 font-medium hover:bg-red-600 transition"

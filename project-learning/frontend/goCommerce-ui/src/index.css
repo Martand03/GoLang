@@ -18,4 +18,8 @@ body {
   .nav-btn-secondary {
     @apply rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-black/5;
   }
+
+  .nav-btn-ternary {
+    @apply rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 bg-red-500/30 hover:bg-red-500;
+  }
 }
