@@ -1,9 +1,15 @@
 import {Link, useNavigate} from "react-router-dom";
-import {logout} from "../utils/auth.ts";
+import {getAuthToken, logout} from "../utils/auth.ts";
 import {toast} from "react-toastify";
+import {useEffect, useState} from "react";
 
 export default function Navbar(){
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsLoggedIn(!!getAuthToken());
+    }, []);
 
     const handleLogout = () => {
         logout();
@@ -22,17 +28,33 @@ export default function Navbar(){
                 </Link>
 
                 <div className="flex items-center gap-6">
-                    <Link to="/login" className="nav-btn-secondary">
-                        Login
-                    </Link>
+                    {isLoggedIn && (
+                        <>
+                            <Link to="/login" className="nav-btn-secondary">
+                                Login
+                            </Link>
 
-                    <Link to="/signup" className="nav-btn-primary">
-                        Sign up
-                    </Link>
+                            <Link to="/signup" className="nav-btn-primary">
+                                Sign up
+                            </Link>
 
-                    <button className="nav-btn-ternary" onClick={handleLogout}>
-                        LogOut
-                    </button>
+                            <button className="nav-btn-ternary" onClick={handleLogout}>
+                                LogOut
+                            </button>
+                        </>
+                    )}
+
+                    {!isLoggedIn && (
+                        <>
+                            <Link to="/login" className="nav-btn-secondary">
+                                Login
+                            </Link>
+
+                            <Link to="/signup" className="nav-btn-primary">
+                                Sign up
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

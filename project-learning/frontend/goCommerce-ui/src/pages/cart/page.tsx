@@ -3,6 +3,7 @@
 import {useEffect, useState} from "react";
 import {apiFetch} from "../../utils/api.ts";
 import {toast} from "react-toastify";
+import BackButton from "../../components/BackButton.tsx";
 
 export default function Cart(){
     const[items, setItems] = useState<any[]>([]);
@@ -25,6 +26,7 @@ export default function Cart(){
 
 return (
   <div className="px-4 py-12 max-w-4xl mx-auto">
+      <BackButton/>
     <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Cart</h1>
 
     {items.length === 0 ? (
