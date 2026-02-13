@@ -157,7 +157,10 @@ func (m Model) View() string {
 		s += "\n\n" + helpStyle.Render("\n\nEnter = save • Esc = cancel\n")
 	}
 
-	box := boxStyle.Render(s)
+	box := boxStyle.
+		Width(100).
+		Height(10).
+		Render(s)
 
 	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, box, lipgloss.WithWhitespaceChars(" "))
 }
