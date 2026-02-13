@@ -1,7 +1,7 @@
 [
  {
   "title": "New learnings",
-  "completed": false
+  "completed": true
  },
  {
   "title": "new task 1",
@@ -9,6 +9,6 @@
  },
  {
   "title": "new task 2",
-  "completed": false
+  "completed": true
  }
 ]

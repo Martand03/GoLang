@@ -6,6 +6,7 @@ import (
 	"goDo/storage"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type mode int
@@ -20,6 +21,9 @@ type Model struct {
 	cursor    int
 	mode      mode
 	inputText string
+
+	width  int
+	height int
 }
 
 func InitialModel() Model {
@@ -44,6 +48,9 @@ func (m Model) Init() tea.Cmd {
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
 	case tea.KeyMsg:
 		switch m.mode {
 		case browseMode:
@@ -89,7 +96,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					_ = storage.Save(&m.tasks)
 				}
 				m.mode = browseMode
-			case "esc":
+			case "esc", "ctrl+b":
 				m.mode = browseMode
 			case "backspace":
 				if len(m.inputText) > 0 {
@@ -122,31 +129,35 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
-	s := "📝 GoDo - To Do List\n\n"
+	s := titleStyle.Render("📝 GoDo - To Do List\n\n") + "\n\n"
 
 	if m.mode == browseMode {
 		for i, task := range m.tasks {
 
 			cursor := " "
 			if m.cursor == i {
-				cursor = ">"
+				cursor = cursorStyle.Render(">")
 			}
 
 			status := "[ ]"
+			title := pendingStyle.Render(task.Title)
 			if task.Completed {
 				status = "[X]"
+				title = completedStyle.Render(task.Title)
 			}
 
-			s += fmt.Sprintf("%s %s %s\n", cursor, status, task.Title)
+			s += fmt.Sprintf("%s %s %s\n", cursor, status, title)
 		}
 
-		s += "\n↑/↓ move • space toggle • q quit\n"
+		s += "\n" + helpStyle.Render("\n↑/↓ move • space toggle • q quit\n")
 
 	} else if m.mode == addMode {
-		s += "Add New Task: \n\n"
-		s += m.inputText
-		s += "\n\nEnter = save • Esc = cancel\n"
+		s += titleStyle.Render("Add New Task: \n\n") + "\n\n"
+		s += inputStyle.Render(m.inputText)
+		s += "\n\n" + helpStyle.Render("\n\nEnter = save • Esc = cancel\n")
 	}
 
-	return s
+	box := boxStyle.Render(s)
+
+	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, box, lipgloss.WithWhitespaceChars(" "))
 }
