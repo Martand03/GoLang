@@ -66,6 +66,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "a":
 				m.mode = addMode
 				m.inputText = ""
+			case "d":
+				if len(m.tasks) > 0 {
+					// delete task at cursor
+					m.tasks = append(m.tasks[:m.cursor], m.tasks[m.cursor+1:]...)
+
+					// cursor safety
+					if m.cursor >= len(m.tasks) && m.cursor > 0 {
+						m.cursor--
+					}
+					_ = storage.Save(&m.tasks)
+				}
 			}
 		case addMode:
 			switch msg.String() {

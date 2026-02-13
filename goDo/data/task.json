@@ -2,4 +2,13 @@
  {
   "title": "New learnings",
   "completed": false
+ },
+ {
+  "title": "new task 1",
+  "completed": true
+ },
+ {
+  "title": "new task 2",
+  "completed": false
  }
+]
